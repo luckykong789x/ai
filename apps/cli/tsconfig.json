@@ -8,13 +8,6 @@
     "outDir": "./dist",
     "declaration": true,
     "sourceMap": true,
-    "baseUrl": "./",
-    "paths": {
-      "@core/*": ["src/core/*"],
-      "@integration/*": ["src/integration/*"],
-      "@prompts/*": ["src/prompts/*"],
-      "@orchestration/*": ["src/orchestration/*"]
-    },
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },

@@ -1,0 +1,22 @@
+{
+  "name": "ai-prompt-orchestration",
+  "version": "0.1.0",
+  "description": "AI Prompt Orchestration System",
+  "private": true,
+  "workspaces": [
+    "orchestration-core",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces"
+  },
+  "keywords": [
+    "ai",
+    "prompt",
+    "orchestration"
+  ],
+  "author": "",
+  "license": "MIT"
+}
