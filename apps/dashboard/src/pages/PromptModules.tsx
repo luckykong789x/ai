@@ -139,7 +139,7 @@ const PromptModules = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-200">{t('promptModules')}</h2>
+        <h2 className="text-2xl font-bold text-gray-200">モジュール管理</h2>
         <div className="flex space-x-2">
           <input
             type="file"
