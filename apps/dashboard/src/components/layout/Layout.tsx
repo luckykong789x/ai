@@ -108,7 +108,7 @@ const Layout = ({ children }: LayoutProps) => {
           </div>
           <div className="flex items-center space-x-4">
             <button 
-              className="hidden lg:block p-2 rounded-full hover:bg-gray-800"
+              className="p-2 rounded-full hover:bg-gray-800"
               onClick={() => setSidebarOpen(!sidebarOpen)}
             >
               <Menu className="w-5 h-5" />

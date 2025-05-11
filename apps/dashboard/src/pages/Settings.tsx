@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Settings as SettingsIcon, Save, RefreshCw, Database, Clock } from 'lucide-react';
+import { t } from '@/lib/i18n';
 
 const Settings = () => {
   const [settings] = useState({
@@ -20,10 +21,10 @@ const Settings = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-200">System Settings</h2>
-        <button className="flex items-center px-4 py-2 bg-accent rounded-lg text-white">
+        <h2 className="text-2xl font-bold text-gray-200">{t('settings')}</h2>
+        <button className="flex items-center px-4 py-2 bg-accent rounded-lg text-accent-foreground">
           <Save className="w-4 h-4 mr-2" />
-          Save All Changes
+          {t('saveAllChanges')}
         </button>
       </div>
 
@@ -31,13 +32,13 @@ const Settings = () => {
         <div className="p-6">
           <div className="flex items-center mb-4">
             <RefreshCw className="w-5 h-5 text-accent mr-2" />
-            <h3 className="text-xl font-medium text-gray-200">Integrated Feedback Loop Policy</h3>
+            <h3 className="text-xl font-medium text-gray-200">{t('integratedFeedbackLoop')}</h3>
           </div>
           
           <form className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Maximum Rounds</label>
+                <label className="block text-sm font-medium text-gray-400 mb-1">{t('maximumRounds')}</label>
                 <div className="flex items-center">
                   <input 
                     type="range" 
@@ -49,11 +50,11 @@ const Settings = () => {
                   />
                   <span className="ml-3 text-gray-300 w-8 text-center">{settings.iflPolicy.maxRounds}</span>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">Maximum number of feedback loop iterations (1-8)</p>
+                <p className="text-xs text-gray-500 mt-1">{t('maximumRounds')}の設定範囲 (1-8)</p>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Minimum Score</label>
+                <label className="block text-sm font-medium text-gray-400 mb-1">{t('minimumScore')}</label>
                 <div className="flex items-center">
                   <input 
                     type="range" 
@@ -65,7 +66,7 @@ const Settings = () => {
                   />
                   <span className="ml-3 text-gray-300 w-8 text-center">{settings.iflPolicy.minScore}</span>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">Minimum quality score to accept output (0-1)</p>
+                <p className="text-xs text-gray-500 mt-1">{t('minimumScore')}の設定範囲 (0-1)</p>
               </div>
             </div>
           </form>
@@ -76,13 +77,13 @@ const Settings = () => {
         <div className="p-6">
           <div className="flex items-center mb-4">
             <Database className="w-5 h-5 text-accent mr-2" />
-            <h3 className="text-xl font-medium text-gray-200">Prompt Linkage Engine Cache</h3>
+            <h3 className="text-xl font-medium text-gray-200">{t('promptLinkageEngine')}</h3>
           </div>
           
           <form className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Cache TTL (seconds)</label>
+                <label className="block text-sm font-medium text-gray-400 mb-1">{t('cacheTTL')}</label>
                 <input 
                   type="number" 
                   min="60" 
@@ -90,11 +91,11 @@ const Settings = () => {
                   defaultValue={settings.cachePolicy.ttlSeconds}
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-accent"
                 />
-                <p className="text-xs text-gray-500 mt-1">Time-to-live for cached prompt modules (60-86400)</p>
+                <p className="text-xs text-gray-500 mt-1">{t('cacheTTL')}の設定範囲 (60-86400)</p>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Max Cached Modules</label>
+                <label className="block text-sm font-medium text-gray-400 mb-1">{t('maxCachedModules')}</label>
                 <input 
                   type="number" 
                   min="1" 
@@ -102,14 +103,14 @@ const Settings = () => {
                   defaultValue={settings.cachePolicy.maxModules}
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-accent"
                 />
-                <p className="text-xs text-gray-500 mt-1">Maximum number of modules to keep in cache (1-100)</p>
+                <p className="text-xs text-gray-500 mt-1">{t('maxCachedModules')}の設定範囲 (1-100)</p>
               </div>
             </div>
             
             <div className="flex justify-end">
               <button className="flex items-center px-3 py-1 bg-gray-700 rounded-lg text-gray-300 hover:bg-gray-600">
                 <RefreshCw className="w-4 h-4 mr-1" />
-                Clear Cache
+                {t('clearCache')}
               </button>
             </div>
           </form>
@@ -120,13 +121,13 @@ const Settings = () => {
         <div className="p-6">
           <div className="flex items-center mb-4">
             <SettingsIcon className="w-5 h-5 text-accent mr-2" />
-            <h3 className="text-xl font-medium text-gray-200">UI Settings</h3>
+            <h3 className="text-xl font-medium text-gray-200">{t('uiSettings')}</h3>
           </div>
           
           <form className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Theme</label>
+                <label className="block text-sm font-medium text-gray-400 mb-1">{t('theme')}</label>
                 <select 
                   defaultValue={settings.ui.theme}
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-accent"
@@ -138,7 +139,7 @@ const Settings = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Language</label>
+                <label className="block text-sm font-medium text-gray-400 mb-1">{t('language')}</label>
                 <select 
                   defaultValue={settings.ui.language}
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-accent"
@@ -158,25 +159,25 @@ const Settings = () => {
         <div className="p-6">
           <div className="flex items-center mb-4">
             <Clock className="w-5 h-5 text-accent mr-2" />
-            <h3 className="text-xl font-medium text-gray-200">Performance Metrics</h3>
+            <h3 className="text-xl font-medium text-gray-200">{t('performanceMetrics')}</h3>
           </div>
           
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-gray-700 p-4 rounded-xl">
-                <p className="text-sm text-gray-400">Initial Response</p>
+                <p className="text-sm text-gray-400">{t('initialResponse')}</p>
                 <p className="text-2xl font-bold text-gray-200">0.92s</p>
                 <p className="text-xs text-gray-500">▲0.02s (Registry lookup)</p>
               </div>
               
               <div className="bg-gray-700 p-4 rounded-xl">
-                <p className="text-sm text-gray-400">PLE Cache Hit</p>
+                <p className="text-sm text-gray-400">{t('pleCacheHit')}</p>
                 <p className="text-2xl font-bold text-gray-200">86%</p>
                 <p className="text-xs text-gray-500">+2% from v4.5</p>
               </div>
               
               <div className="bg-gray-700 p-4 rounded-xl">
-                <p className="text-sm text-gray-400">Avg IFL Rounds</p>
+                <p className="text-sm text-gray-400">{t('avgIFLRounds')}</p>
                 <p className="text-2xl font-bold text-gray-200">2.6</p>
                 <p className="text-xs text-gray-500">Improved stopping criteria</p>
               </div>
@@ -185,7 +186,7 @@ const Settings = () => {
             <div className="flex justify-end">
               <button className="flex items-center px-3 py-1 bg-gray-700 rounded-lg text-gray-300 hover:bg-gray-600">
                 <RefreshCw className="w-4 h-4 mr-1" />
-                Reset Metrics
+                {t('resetMetrics')}
               </button>
             </div>
           </div>

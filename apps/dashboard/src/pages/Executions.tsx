@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Play, Clock, CheckCircle, AlertTriangle, XCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { t } from '@/lib/i18n';
 
 const Executions = () => {
   const [executions] = useState([
@@ -75,10 +76,10 @@ const Executions = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-200">Executions</h2>
-        <button className="flex items-center px-4 py-2 bg-accent rounded-lg text-white">
+        <h2 className="text-2xl font-bold text-gray-200">{t('executions')}</h2>
+        <button className="flex items-center px-4 py-2 bg-accent rounded-lg text-accent-foreground">
           <Play className="w-4 h-4 mr-2" />
-          New Execution
+          {t('newExecution')}
         </button>
       </div>
 
@@ -86,7 +87,7 @@ const Executions = () => {
         <div className="p-6">
           <div className="flex items-center mb-4">
             <Play className="w-5 h-5 text-accent mr-2" />
-            <h3 className="text-xl font-medium text-gray-200">Recent Executions</h3>
+            <h3 className="text-xl font-medium text-gray-200">{t('executions')}</h3>
           </div>
           
           <div className="space-y-4">
@@ -167,12 +168,12 @@ const Executions = () => {
 
       <div className="bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
         <div className="p-6">
-          <h3 className="text-xl font-medium text-gray-200 mb-4">New Execution</h3>
+          <h3 className="text-xl font-medium text-gray-200 mb-4">{t('newExecution')}</h3>
           
           <form className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Prompt Module</label>
+                <label className="block text-sm font-medium text-gray-400 mb-1">{t('promptModules')}</label>
                 <select className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-accent">
                   <option value="">Select a module</option>
                   <option value="summarize">Text Summarizer</option>
@@ -182,7 +183,7 @@ const Executions = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Provider (Optional)</label>
+                <label className="block text-sm font-medium text-gray-400 mb-1">{t('providers')} (Optional)</label>
                 <select className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-accent">
                   <option value="">Auto-select</option>
                   <option value="openai/gpt-4">OpenAI/gpt-4</option>
@@ -203,9 +204,9 @@ const Executions = () => {
             <div className="flex justify-end">
               <button 
                 type="submit"
-                className="px-4 py-2 bg-accent rounded-lg text-white"
+                className="px-4 py-2 bg-accent rounded-lg text-accent-foreground"
               >
-                Execute
+                {t('execute')}
               </button>
             </div>
           </form>

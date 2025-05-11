@@ -23,6 +23,7 @@ function App() {
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/providers" element={<Providers />} />
                 <Route path="/prompt-modules" element={<PromptModules />} />
+                <Route path="/pipelines" element={<div className="p-6">パイプライン機能は開発中です</div>} />
                 <Route path="/executions" element={<Executions />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/chat-test" element={<ChatTest />} />
