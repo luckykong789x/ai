@@ -8,11 +8,17 @@ export interface ExecutionRequest {
   pipelineConfig?: PipelineConfig;
 }
 
+export interface ModelPromptAssignment {
+  providerId: string;
+  modelId?: string;
+  customPrompt?: string;
+}
+
 export interface PipelineConfig {
   maxRounds: number;
   minScore: number;
   breakOnError: boolean;
-  modelAssignments?: Record<string, string>; // moduleId -> providerId
+  modelAssignments?: Record<string, string | ModelPromptAssignment>; // moduleId -> providerId or ModelPromptAssignment
 }
 
 export interface PipelineResult {
@@ -80,10 +86,14 @@ export class ExecutionOrchestrator {
         const startTime = Date.now();
         
         try {
-          const providerId = config.modelAssignments?.[module.id] || 'default';
+          const providerInfo = config.modelAssignments?.[module.id] || 'default';
           
-          const moduleResult = await this.executeModule(module, pipelineState, providerId);
+          const moduleResult = await this.executeModule(module, pipelineState, providerInfo);
           
+          const providerId = typeof providerInfo === 'string' 
+            ? providerInfo 
+            : providerInfo.providerId;
+            
           executionHistory.push({
             moduleId: module.id,
             providerId,
@@ -112,9 +122,14 @@ export class ExecutionOrchestrator {
         } catch (err) {
           const moduleError = err instanceof Error ? err : new Error(String(err));
           
+          const errorProviderInfo = config.modelAssignments?.[module.id] || 'default';
+          const errorProviderId = typeof errorProviderInfo === 'string' 
+            ? errorProviderInfo 
+            : errorProviderInfo.providerId;
+            
           executionHistory.push({
             moduleId: module.id,
-            providerId: config.modelAssignments?.[module.id] || 'default',
+            providerId: errorProviderId,
             input: pipelineState,
             output: {},
             timestamp: new Date(),
@@ -154,12 +169,18 @@ export class ExecutionOrchestrator {
   private async executeModule(
     module: PromptModule, 
     context: Record<string, unknown>,
-    providerId: string
+    providerInfo: string | ModelPromptAssignment
   ): Promise<Record<string, unknown>> {
+    const providerId = typeof providerInfo === 'string' 
+      ? providerInfo 
+      : providerInfo.providerId;
+    
     const provider = this.providerRegistry.getProvider(providerId);
     if (!provider) {
       throw new Error(`Provider not found: ${providerId}`);
     }
+    
+    const customPrompt = typeof providerInfo !== 'string' ? providerInfo.customPrompt : undefined;
 
     let currentResult = {};
     let currentScore = 0;
@@ -168,7 +189,7 @@ export class ExecutionOrchestrator {
     const minScore = this.defaultPipelineConfig.minScore;
 
     while (rounds < maxRounds && currentScore < minScore) {
-      const renderedPrompt = this.renderPrompt(module, context);
+      const renderedPrompt = this.renderPrompt(module, context, customPrompt);
       
       const response = await provider.execute(renderedPrompt);
       
@@ -200,8 +221,12 @@ export class ExecutionOrchestrator {
    * @param context The context for rendering
    * @returns Rendered prompt
    */
-  private renderPrompt(module: PromptModule, context: Record<string, unknown>): string {
-    let prompt = module.systemPrompt + '\n\n' + module.userTemplate;
+  private renderPrompt(
+    module: PromptModule, 
+    context: Record<string, unknown>,
+    customPrompt?: string
+  ): string {
+    let prompt = customPrompt || (module.systemPrompt + '\n\n' + module.userTemplate);
     
     for (const [key, value] of Object.entries(context)) {
       const placeholder = `{{${key}}}`;
