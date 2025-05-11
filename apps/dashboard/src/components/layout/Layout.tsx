@@ -7,8 +7,10 @@ import {
   Play, 
   Settings as SettingsIcon,
   Menu,
-  X
+  X,
+  Globe
 } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -18,13 +20,18 @@ const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
+
+  const toggleLanguage = () => {
+    setLanguage(language === 'en' ? 'ja' : 'en');
+  };
 
   const navItems = [
-    { path: '/', label: 'Dashboard', icon: <LayoutGrid className="w-5 h-5" /> },
-    { path: '/providers', label: 'Providers', icon: <Server className="w-5 h-5" /> },
-    { path: '/prompt-modules', label: 'Prompt Modules', icon: <FileText className="w-5 h-5" /> },
-    { path: '/executions', label: 'Executions', icon: <Play className="w-5 h-5" /> },
-    { path: '/settings', label: 'Settings', icon: <SettingsIcon className="w-5 h-5" /> },
+    { path: '/', label: t('dashboard'), icon: <LayoutGrid className="w-5 h-5" /> },
+    { path: '/providers', label: t('providers'), icon: <Server className="w-5 h-5" /> },
+    { path: '/prompt-modules', label: t('promptModules'), icon: <FileText className="w-5 h-5" /> },
+    { path: '/executions', label: t('executions'), icon: <Play className="w-5 h-5" /> },
+    { path: '/settings', label: t('settings'), icon: <SettingsIcon className="w-5 h-5" /> },
   ];
 
   return (
@@ -92,6 +99,14 @@ const Layout = ({ children }: LayoutProps) => {
             </h1>
           </div>
           <div className="flex items-center space-x-4">
+            <button 
+              className="flex items-center px-3 py-1.5 bg-gray-800 hover:bg-gray-700 rounded-full text-sm"
+              onClick={toggleLanguage}
+              aria-label={language === 'en' ? '日本語に切り替え' : 'Switch to English'}
+            >
+              <Globe className="w-4 h-4 mr-1.5" />
+              <span>{language === 'en' ? '日本語' : 'English'}</span>
+            </button>
             <button 
               className="hidden lg:block p-2 rounded-full hover:bg-gray-800"
               onClick={() => setSidebarOpen(!sidebarOpen)}
