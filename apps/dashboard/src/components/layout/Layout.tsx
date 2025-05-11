@@ -7,7 +7,9 @@ import {
   Play, 
   Settings as SettingsIcon,
   Menu,
-  X
+  X,
+  Boxes,
+  MessageSquare
 } from 'lucide-react';
 import { t, setLanguage } from '@/lib/i18n';
 
@@ -28,18 +30,25 @@ const Layout = ({ children }: LayoutProps) => {
     { path: '/', label: t('dashboard'), icon: <LayoutGrid className="w-5 h-5" /> },
     { path: '/providers', label: t('providers'), icon: <Server className="w-5 h-5" /> },
     { path: '/prompt-modules', label: t('promptModules'), icon: <FileText className="w-5 h-5" /> },
+    { path: '/pipelines', label: t('pipelines'), icon: <Boxes className="w-5 h-5" /> },
     { path: '/executions', label: t('executions'), icon: <Play className="w-5 h-5" /> },
+    { path: '/chat-test', label: t('chatTitle'), icon: <MessageSquare className="w-5 h-5" /> },
     { path: '/settings', label: t('settings'), icon: <SettingsIcon className="w-5 h-5" /> },
-    { path: '/chat-test', label: t('chatTitle'), icon: <FileText className="w-5 h-5" /> },
   ];
 
   return (
     <div className="flex h-screen bg-base text-white">
       {/* Sidebar - desktop */}
+      <div 
+        className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+        style={{ display: mobileMenuOpen ? 'block' : 'none' }}
+        onClick={() => setMobileMenuOpen(false)}
+      ></div>
       <aside 
         className={`fixed inset-y-0 left-0 z-50 w-64 transform bg-base border-r border-gray-800 transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto lg:flex ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
+        data-state={mobileMenuOpen ? 'open' : 'closed'}
       >
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between h-16 px-6 border-b border-gray-800">
