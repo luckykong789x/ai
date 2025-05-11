@@ -7,22 +7,32 @@ import PromptModules from '@/pages/PromptModules';
 import Executions from '@/pages/Executions';
 import Settings from '@/pages/Settings';
 import ChatTest from '@/pages/ChatTest';
+import Login from '@/pages/Login';
+import { AuthProvider } from '@/contexts/AuthContext';
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
 
 function App() {
   return (
-    <>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/providers" element={<Providers />} />
-          <Route path="/prompt-modules" element={<PromptModules />} />
-          <Route path="/executions" element={<Executions />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/chat-test" element={<ChatTest />} />
-        </Routes>
-      </Layout>
+    <AuthProvider>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/*" element={
+          <ProtectedRoute>
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/providers" element={<Providers />} />
+                <Route path="/prompt-modules" element={<PromptModules />} />
+                <Route path="/executions" element={<Executions />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/chat-test" element={<ChatTest />} />
+              </Routes>
+            </Layout>
+          </ProtectedRoute>
+        } />
+      </Routes>
       <Toaster />
-    </>
+    </AuthProvider>
   );
 }
 

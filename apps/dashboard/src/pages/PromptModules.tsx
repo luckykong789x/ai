@@ -1,8 +1,22 @@
-import { useState } from 'react';
-import { FileText, Plus, Edit, Trash, Code } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { FileText, Plus, Edit, Trash, Code, Download, Upload } from 'lucide-react';
+import { t } from '@/lib/i18n';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
+
+interface Module {
+  id: string;
+  title: string;
+  systemPrompt: string;
+  userTemplate: string;
+  stopCriteria: {
+    keyword: string;
+    maxTurns: number;
+  };
+}
 
 const PromptModules = () => {
-  const [modules] = useState([
+  const [modules, setModules] = useState<Module[]>([
     { 
       id: 'summarize', 
       title: 'Text Summarizer', 
@@ -25,15 +39,128 @@ const PromptModules = () => {
       stopCriteria: { keyword: 'ANALYSIS_COMPLETE', maxTurns: 4 }
     },
   ]);
+  const { toast } = useToast();
+  
+  useEffect(() => {
+    const savedModules = localStorage.getItem('promptModules');
+    if (savedModules) {
+      try {
+        setModules(JSON.parse(savedModules));
+      } catch (error) {
+        console.error('Failed to parse saved modules:', error);
+      }
+    }
+  }, []);
+  
+  useEffect(() => {
+    localStorage.setItem('promptModules', JSON.stringify(modules));
+  }, [modules]);
+  
+  const exportModule = (module: Module) => {
+    const moduleJson = JSON.stringify(module, null, 2);
+    const blob = new Blob([moduleJson], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${module.id}.json`;
+    document.body.appendChild(a);
+    a.click();
+    
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 0);
+    
+    toast({
+      title: t('moduleExported'),
+      description: `${module.title} (${module.id})`,
+    });
+  };
+  
+  const exportAllModules = () => {
+    const modulesJson = JSON.stringify(modules, null, 2);
+    const blob = new Blob([modulesJson], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'all-modules.json';
+    document.body.appendChild(a);
+    a.click();
+    
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 0);
+    
+    toast({
+      title: t('allModulesExported'),
+      description: `${modules.length} modules`,
+    });
+  };
+  
+  const importModules = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const content = e.target?.result as string;
+        const importedData = JSON.parse(content);
+        
+        if (Array.isArray(importedData)) {
+          setModules([...modules, ...importedData]);
+        } else {
+          setModules([...modules, importedData]);
+        }
+        
+        toast({
+          title: t('modulesImported'),
+          description: Array.isArray(importedData) 
+            ? `${importedData.length} modules` 
+            : `1 module (${importedData.id})`,
+        });
+      } catch (error) {
+        console.error('Failed to import modules:', error);
+        toast({
+          title: 'Import Error',
+          description: 'Failed to import modules. Invalid format.',
+          variant: 'destructive',
+        });
+      }
+    };
+    reader.readAsText(file);
+    
+    event.target.value = '';
+  };
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-200">Prompt Modules</h2>
-        <button className="flex items-center px-4 py-2 bg-accent rounded-lg text-white">
-          <Plus className="w-4 h-4 mr-2" />
-          New Module
-        </button>
+        <h2 className="text-2xl font-bold text-gray-200">{t('promptModules')}</h2>
+        <div className="flex space-x-2">
+          <input
+            type="file"
+            id="import-modules"
+            className="hidden"
+            accept=".json"
+            onChange={importModules}
+          />
+          <label htmlFor="import-modules" className="flex items-center px-4 py-2 bg-gray-700 rounded-lg text-white cursor-pointer">
+            <Upload className="w-4 h-4 mr-2" />
+            {t('importModules')}
+          </label>
+          <Button onClick={exportAllModules} variant="outline" className="flex items-center">
+            <Download className="w-4 h-4 mr-2" />
+            {t('exportAllModules')}
+          </Button>
+          <Button className="flex items-center">
+            <Plus className="w-4 h-4 mr-2" />
+            {t('newModule')}
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -46,6 +173,12 @@ const PromptModules = () => {
                   <h3 className="text-xl font-medium text-gray-200">{module.title}</h3>
                 </div>
                 <div className="flex space-x-2">
+                  <button 
+                    className="p-1 rounded hover:bg-gray-700"
+                    onClick={() => exportModule(module)}
+                  >
+                    <Download className="w-4 h-4 text-gray-400" />
+                  </button>
                   <button className="p-1 rounded hover:bg-gray-700">
                     <Edit className="w-4 h-4 text-gray-400" />
                   </button>
