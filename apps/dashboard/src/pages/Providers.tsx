@@ -7,7 +7,7 @@ const Providers = () => {
     { id: 1, name: 'OpenAI', apiKey: 'sk-***********', models: ['gpt-4', 'gpt-3.5-turbo'], priority: 80 },
     { id: 2, name: 'Anthropic', apiKey: 'sk-***********', models: ['claude-2', 'claude-instant'], priority: 60 },
     { id: 3, name: 'Cohere', apiKey: 'sk-***********', models: ['command', 'command-light'], priority: 40 },
-    { id: 4, name: 'DeepSeek', apiKey: 'sk-0e42714adef8498086ed886ffee17748', models: ['deepseek-chat'], priority: 70 },
+    { id: 4, name: 'DeepSeek', apiKey: 'sk-***********', models: ['deepseek-chat'], priority: 70 },
   ]);
 
   return (
