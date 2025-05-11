@@ -179,7 +179,7 @@ const Settings = () => {
               <div className="bg-gray-700 p-4 rounded-xl">
                 <p className="text-sm text-gray-400">{t('avgIFLRounds')}</p>
                 <p className="text-2xl font-bold text-gray-200">2.6</p>
-                <p className="text-xs text-gray-500">Improved stopping criteria</p>
+                <p className="text-xs text-gray-500">{t('improvedStoppingCriteria')}</p>
               </div>
             </div>
             
