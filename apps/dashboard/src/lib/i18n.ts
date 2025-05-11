@@ -54,6 +54,7 @@ const translations: Translations = {
     pleCacheHit: 'PLE Cache Hit',
     avgIFLRounds: 'Avg IFL Rounds',
     resetMetrics: 'Reset Metrics',
+    improvedStoppingCriteria: 'Improved stopping criteria',
   },
   ja: {
     dashboard: 'ダッシュボード',
@@ -104,6 +105,7 @@ const translations: Translations = {
     pleCacheHit: 'PLEキャッシュヒット率',
     avgIFLRounds: '平均IFLラウンド数',
     resetMetrics: 'メトリクスをリセット',
+    improvedStoppingCriteria: '停止条件の改善',
   }
 };
 
