@@ -181,7 +181,7 @@ export const Chat = () => {
   const getSenderLabel = (sender: string) => {
     switch(sender) {
       case 'user': return 'ユーザー';
-      case 'system': return 'システム';
+      case 'system': return 'DeepSeek-V3';
       case 'orchestrator': return 'オーケストレーター';
       default: return sender;
     }
@@ -209,7 +209,7 @@ export const Chat = () => {
             className="flex items-center"
           >
             <AlertTriangle className="w-4 h-4 mr-1" />
-            <span>緊急停止</span>
+            <span>{t('emergencyStop')}</span>
           </Button>
           <Button 
             variant="outline" 
@@ -218,7 +218,7 @@ export const Chat = () => {
             className="flex items-center"
           >
             <RefreshCw className="w-4 h-4 mr-1" />
-            <span>UI初期化</span>
+            <span>{t('resetUI')}</span>
           </Button>
         </div>
       </div>

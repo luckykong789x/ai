@@ -1,20 +1,22 @@
 import { useState } from 'react';
 import { Server, Plus, Trash, Edit } from 'lucide-react';
+import { t } from '@/lib/i18n';
 
 const Providers = () => {
   const [providers] = useState([
     { id: 1, name: 'OpenAI', apiKey: 'sk-***********', models: ['gpt-4', 'gpt-3.5-turbo'], priority: 80 },
     { id: 2, name: 'Anthropic', apiKey: 'sk-***********', models: ['claude-2', 'claude-instant'], priority: 60 },
     { id: 3, name: 'Cohere', apiKey: 'sk-***********', models: ['command', 'command-light'], priority: 40 },
+    { id: 4, name: 'DeepSeek', apiKey: 'sk-0e42714adef8498086ed886ffee17748', models: ['deepseek-chat'], priority: 70 },
   ]);
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-200">AI Providers</h2>
-        <button className="flex items-center px-4 py-2 bg-accent rounded-lg text-white">
+        <button className="flex items-center px-4 py-2 bg-accent rounded-lg text-accent-foreground">
           <Plus className="w-4 h-4 mr-2" />
-          Add Provider
+          {t('addProvider')}
         </button>
       </div>
 
@@ -22,18 +24,18 @@ const Providers = () => {
         <div className="p-6">
           <div className="flex items-center mb-4">
             <Server className="w-5 h-5 text-accent mr-2" />
-            <h3 className="text-xl font-medium text-gray-200">Registered Providers</h3>
+            <h3 className="text-xl font-medium text-gray-200">{t('registeredProviders')}</h3>
           </div>
           
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="text-left text-gray-400 border-b border-gray-700">
-                  <th className="pb-3 font-medium">Name</th>
-                  <th className="pb-3 font-medium">API Key</th>
-                  <th className="pb-3 font-medium">Models</th>
-                  <th className="pb-3 font-medium">Priority</th>
-                  <th className="pb-3 font-medium">Actions</th>
+                  <th className="pb-3 font-medium">{t('providerName')}</th>
+                  <th className="pb-3 font-medium">{t('apiKey')}</th>
+                  <th className="pb-3 font-medium">{t('models')}</th>
+                  <th className="pb-3 font-medium">{t('priority')}</th>
+                  <th className="pb-3 font-medium">{t('actions')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -71,12 +73,12 @@ const Providers = () => {
 
       <div className="bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
         <div className="p-6">
-          <h3 className="text-xl font-medium text-gray-200 mb-4">Add New Provider</h3>
+          <h3 className="text-xl font-medium text-gray-200 mb-4">{t('addNewProvider')}</h3>
           
           <form className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Provider Name</label>
+                <label className="block text-sm font-medium text-gray-400 mb-1">{t('providerName')}</label>
                 <input 
                   type="text" 
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-accent"
@@ -85,7 +87,7 @@ const Providers = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">API Key</label>
+                <label className="block text-sm font-medium text-gray-400 mb-1">{t('apiKey')}</label>
                 <input 
                   type="password" 
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-accent"
@@ -95,7 +97,7 @@ const Providers = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-1">Models (comma separated)</label>
+              <label className="block text-sm font-medium text-gray-400 mb-1">{t('models')} (comma separated)</label>
               <input 
                 type="text" 
                 className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-accent"
@@ -104,7 +106,7 @@ const Providers = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-1">Priority (0-100)</label>
+              <label className="block text-sm font-medium text-gray-400 mb-1">{t('priority')} (0-100)</label>
               <input 
                 type="number" 
                 min="0"
@@ -117,9 +119,9 @@ const Providers = () => {
             <div className="flex justify-end">
               <button 
                 type="submit"
-                className="px-4 py-2 bg-accent rounded-lg text-white"
+                className="px-4 py-2 bg-accent rounded-lg text-accent-foreground"
               >
-                Save Provider
+                {t('saveProvider')}
               </button>
             </div>
           </form>
