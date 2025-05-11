@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Send, AlertTriangle, RefreshCw, Loader2 } from 'lucide-react';
 import { Card } from './card';
 import { Button } from './button';
